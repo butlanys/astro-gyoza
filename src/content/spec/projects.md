@@ -1,5 +1,7 @@
 ---
 title: 项目
-description: 这些是我创建或参与的项目，如果你感兴趣不妨去给个 Star。
+description: 暂未整理项目清单，后续会补充。
 comments: false
 ---
+
+近期的折腾笔记都会先放在博客文章里，等项目成熟后再集中整理到这里。

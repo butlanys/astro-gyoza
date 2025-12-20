@@ -1,30 +1,25 @@
 ---
-title: 自述
-description: 这是一份站长的自述报告，请查收。
-comments: false
+title: 关于
+description: 关于 butlanys 和这个博客的几句自我介绍。
+comments: true
 ---
 
-## 关于 Gyoza
+## Hi，我是 butlanys
 
-Gyoza 是一个使用 Astro 和 React 开发的博客主题。Gyoza 借鉴了 [Shiro](https://github.com/innei/Shiro) 和一些网站的设计。
+- 中国广东人，写写代码、折腾服务器，也喜欢到处旅行。
+- 会用 Python、Go，正在继续补前端和 Java 的坑。
+- 博客最早在 2023 年用 Hexo 起步，现在迁到 Astro，继续记录折腾笔记和一些生活碎片。
 
-Gyoza 的核心理念是简洁，快速，可爱。
+## 这个站点
 
-- 在 [Markdown 示例](/posts/markdown) 中展示了 Markdown 的渲染样式
-- 可以前往 [Gyoza 使用指南](/posts/guide) 了解 Gyoza 的使用方法
+- 域名：`blog.butlanys.de`
+- 语言：简体中文
+- 主题：尽量简洁、好读，少一点花里胡哨，多一点内容。
+- 愿望：**愿此行，终抵群星。**
 
-Gyoza 是开源的，如果你对这个项目感兴趣，欢迎前往 Gyoza 的 [Github 仓库](https://github.com/lxchapu/astro-gyoza) 来提 Issue 或者 PR。
+## 联系方式
 
-## 关于作者
+- Email：`i@butlanys.de`
+- GitHub：[@butlanys](https://github.com/butlanys)
 
-我是 lxchapu，是一名前端开发者，喜欢各种有趣的东西。欢迎访问我的个人网站 [www.lxchapu.com](https://www.lxchapu.com)，了解关于我更多的信息。
-
-## 致谢
-
-感谢以下项目：
-
-- [Astro](https://astro.build/)
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [Jotai](https://jotai.org/)
+欢迎一起交流，也欢迎在友链页留下你的站点。

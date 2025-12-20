@@ -1,8 +1,6 @@
 ---
-import { Waline } from './Waline'
-import { waline } from '@/config.json'
+import { CommentSwitcher } from './CommentSwitcher'
+import { waline, giscus } from '@/config.json'
 ---
 
-<div>
-  {waline.serverURL && <Waline {...waline} client:visible />}
-</div>
+<CommentSwitcher waline={waline} giscus={giscus} client:visible />
