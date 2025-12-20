@@ -81,11 +81,6 @@
       "icon": "icon-map"
     },
     {
-      "name": "博客统计",
-      "link": "/charts",
-      "icon": "icon-computer"
-    },
-    {
       "name": "友链",
       "link": "/friends",
       "icon": "icon-link"
