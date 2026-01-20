@@ -19,3 +19,14 @@ comments: true
 
 - 中国·广州（五一）— 被朋友拉去吃肠粉。
 - 中国·深圳（五一）— 原计划的目的地。
+
+## 2026
+- 中国·香港 (1.13~1.15) - 有一说一，香港这个地方是我执念最深，最想去的地方，大概13年前，我妈带我去香港，那是我第一次去那么远的地方（现在来看也不算远）。而13年后的今天，我拿着赚到的第一笔还算充裕的资金带着我妈
+重游香港😊
+
+![](https://file.butlanys.de/img/hongkong/20260113_150521.jpg)
+![](https://file.butlanys.de/img/hongkong/20260113_160825.jpg)
+![](https://file.butlanys.de/img/hongkong/20260113_163536.jpg)
+![](https://file.butlanys.de/img/hongkong/20260114_110313.jpg)
+![](https://file.butlanys.de/img/hongkong/20260114_171022.jpg)
+![](https://file.butlanys.de/img/hongkong/20260114_183019.jpg)
