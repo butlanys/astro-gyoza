@@ -6,7 +6,7 @@ summary: 解决nvidia与Wayland的冲突的神必小代码
 category: linux
 tags:
 - linux
-- wireguard
+- nvidia
 sticky: 0
 ---
 
