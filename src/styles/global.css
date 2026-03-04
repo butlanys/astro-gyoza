@@ -42,3 +42,15 @@ html.gray {
 * {
   scrollbar-width: thin;
 }
+
+.leaflet-container {
+  z-index: 0;
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgb(var(--color-bg-primary));
+  color: rgb(var(--color-text-primary));
+  border: 1px solid rgb(var(--color-border-primary));
+}

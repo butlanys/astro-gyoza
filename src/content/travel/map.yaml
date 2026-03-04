@@ -1,0 +1,81 @@
+points:
+  - id: xiamen-2023
+    year: 2023
+    country: 中国
+    city: 厦门
+    lat: 24.4798
+    lng: 118.0894
+    anchor: '2023'
+    note: 不错的风景和人文，想找时间再去。
+
+  - id: macau-2024
+    year: 2024
+    country: 中国
+    city: 澳门
+    lat: 22.1987
+    lng: 113.5439
+    anchor: '2024'
+    note: 第一印象是城市不大，但值得一逛。
+
+  - id: beijing-2024
+    year: 2024
+    country: 中国
+    city: 北京
+    lat: 39.9042
+    lng: 116.4074
+    anchor: '2024'
+    note: 五一出行，没预约到故宫和国博有点遗憾。
+
+  - id: bangkok-2024
+    year: 2024
+    country: 泰国
+    city: 曼谷
+    lat: 13.7563
+    lng: 100.5018
+    anchor: '2024'
+    note: 有当地朋友带着玩，体验很新鲜。
+
+  - id: pattaya-2024
+    year: 2024
+    country: 泰国
+    city: 芭提雅
+    lat: 12.9236
+    lng: 100.8825
+    anchor: '2024'
+    note: 泰国行程的一站。
+
+  - id: guangzhou-2024
+    year: 2024
+    country: 中国
+    city: 广州
+    lat: 23.1291
+    lng: 113.2644
+    anchor: '2024'
+    note: 国庆在这里结识了朋友 tech_sky。
+
+  - id: guangzhou-2025
+    year: 2025
+    country: 中国
+    city: 广州
+    lat: 23.1291
+    lng: 113.2644
+    anchor: '2025'
+    note: 五一被朋友拉去吃肠粉。
+
+  - id: shenzhen-2025
+    year: 2025
+    country: 中国
+    city: 深圳
+    lat: 22.5431
+    lng: 114.0579
+    anchor: '2025'
+    note: 五一原计划目的地。
+
+  - id: hong-kong-2026
+    year: 2026
+    country: 中国
+    city: 香港
+    lat: 22.3193
+    lng: 114.1694
+    anchor: '2026'
+    note: 13 年后带着妈妈重游香港。

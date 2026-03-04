@@ -12,6 +12,7 @@ import ProjectList from '@/components/ProjectList.astro'
 import { ReadingProgress } from '@/components/post/ReadingProgress'
 import { PostToc } from '@/components/post/PostToc'
 import { Comments } from '@/components/comment'
+import { TravelMap } from '@/components/travel/TravelMap'
 
 export const getStaticPaths = (async () => {
   const specList = await getCollection('spec')
@@ -34,6 +35,8 @@ const { headings, Content } = await md.render()
 
 const isPageLayout = ['friends', 'projects'].includes(md.slug)
 const isMdContentEmpty = md.body.trim().length === 0
+const travelMapPoints =
+  md.slug === 'travel' ? (await getCollection('travel'))[0]?.data.points ?? [] : []
 ---
 
 {
@@ -77,6 +80,7 @@ const isMdContentEmpty = md.body.trim().length === 0
           </header>
         </div>
         <div class="col-start-1 min-w-0">
+          {md.slug === 'travel' && <TravelMap points={travelMapPoints} client:only="react" />}
           <MarkdownWrapper>
             <Content />
           </MarkdownWrapper>

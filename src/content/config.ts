@@ -46,9 +46,29 @@ const friendsCollection = defineCollection({
   }),
 })
 
+const travelCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    points: z.array(
+      z.object({
+        id: z.string(),
+        year: z.number().int(),
+        country: z.string(),
+        city: z.string(),
+        lat: z.number(),
+        lng: z.number(),
+        anchor: z.string(),
+        note: z.string().optional(),
+        cover: z.string().optional(),
+      }),
+    ),
+  }),
+})
+
 export const collections = {
   posts: postsCollection,
   projects: projectsCollection,
   spec: specCollection,
   friends: friendsCollection,
+  travel: travelCollection,
 }
