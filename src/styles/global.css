@@ -54,3 +54,27 @@ html.gray {
   color: rgb(var(--color-text-primary));
   border: 1px solid rgb(var(--color-border-primary));
 }
+
+.travel-cesium-viewer,
+.travel-cesium-viewer .cesium-viewer,
+.travel-cesium-viewer .cesium-viewer-cesiumWidget,
+.travel-cesium-viewer .cesium-widget,
+.travel-cesium-viewer canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.travel-cesium-viewer .cesium-viewer-toolbar,
+.travel-cesium-viewer .cesium-navigation-help,
+.travel-cesium-viewer .cesium-animationContainer,
+.travel-cesium-viewer .cesium-timeline-main {
+  display: none;
+}
+
+.travel-cesium-viewer .cesium-widget-credits {
+  bottom: 8px;
+  left: 10px;
+  right: auto;
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 10px;
+}

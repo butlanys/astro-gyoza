@@ -17,6 +17,7 @@ import { site } from './src/config.json'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import swup from '@swup/astro'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://astro.build/config
 export default defineConfig({
@@ -49,6 +50,19 @@ export default defineConfig({
     remarkRehype: { footnoteLabel: '参考', footnoteBackLabel: '返回正文' },
   },
   vite: {
+    define: {
+      CESIUM_BASE_URL: JSON.stringify('/cesium'),
+    },
+    plugins: [
+      viteStaticCopy({
+        targets: [
+          { src: 'node_modules/cesium/Build/Cesium/Workers', dest: 'cesium' },
+          { src: 'node_modules/cesium/Build/Cesium/Assets', dest: 'cesium' },
+          { src: 'node_modules/cesium/Build/Cesium/ThirdParty', dest: 'cesium' },
+          { src: 'node_modules/cesium/Build/Cesium/Widgets', dest: 'cesium' },
+        ],
+      }),
+    ],
     build: {
       rollupOptions: {
         external: ['/pagefind/pagefind.js'],
