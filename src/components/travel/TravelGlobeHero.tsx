@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  BoundingSphere,
   Cartesian2,
   Cartesian3,
   Cartographic,
@@ -9,12 +8,12 @@ import {
   Color,
   EllipsoidTerrainProvider,
   Entity,
-  HeadingPitchRange,
   HorizontalOrigin,
   Ion,
   IonImageryProvider,
   Math as CesiumMath,
   OpenStreetMapImageryProvider,
+  SceneTransforms,
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
   VerticalOrigin,
@@ -40,12 +39,15 @@ const DEFAULT_VIEW_HEIGHT_DESKTOP = 14_500_000
 const DEFAULT_VIEW_HEIGHT_MOBILE = 17_500_000
 const DEFAULT_VIEW_HEADING = CesiumMath.toRadians(12)
 const DEFAULT_VIEW_PITCH = CesiumMath.toRadians(-84)
-const CLOSE_VIEW_RANGE_DESKTOP = 170_000
-const CLOSE_VIEW_RANGE_MOBILE = 240_000
-const CLOSE_VIEW_PITCH = CesiumMath.toRadians(-82)
+const CLOSE_VIEW_HEIGHT_DESKTOP = 160_000
+const CLOSE_VIEW_HEIGHT_MOBILE = 240_000
+const CLOSE_VIEW_PITCH = CesiumMath.toRadians(-86)
 const CLOSE_VIEW_THRESHOLD_DESKTOP = 900_000
 const CLOSE_VIEW_THRESHOLD_MOBILE = 1_200_000
 const AUTO_ROTATE_SPEED_RAD_PER_SECOND = CesiumMath.toRadians(2.3)
+const MOBILE_POINT_PICK_RADIUS_PX = 48
+const DESKTOP_POINT_PICK_RADIUS_PX = 26
+const OVERLAY_CLOSE_GUARD_MS = 350
 
 interface TravelPhoto {
   src: string
@@ -119,12 +121,44 @@ function getPointFromPickedObject(
   return pointByEntityId.get(entityId) ?? null
 }
 
+function findNearestPointByScreenDistance(
+  viewer: Viewer,
+  pointByEntityId: Map<string, TravelPoint>,
+  pointCartesianById: Map<string, Cartesian3>,
+  position: Cartesian2,
+  maxDistancePx: number,
+) {
+  let nearestPoint: TravelPoint | null = null
+  let nearestDistanceSq = maxDistancePx * maxDistancePx
+
+  pointByEntityId.forEach((point, pointId) => {
+    const worldPosition = pointCartesianById.get(pointId)
+    if (!worldPosition) return
+
+    const screenPosition = SceneTransforms.worldToWindowCoordinates(viewer.scene, worldPosition)
+    if (!screenPosition) return
+
+    const dx = screenPosition.x - position.x
+    const dy = screenPosition.y - position.y
+    const distanceSq = dx * dx + dy * dy
+
+    if (distanceSq <= nearestDistanceSq) {
+      nearestDistanceSq = distanceSq
+      nearestPoint = point
+    }
+  })
+
+  return nearestPoint
+}
+
 export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroProps) {
   const viewerRef = useRef<Viewer | null>(null)
   const globeContainerRef = useRef<HTMLDivElement | null>(null)
   const pointByEntityIdRef = useRef<Map<string, TravelPoint>>(new Map())
   const pointEntitiesRef = useRef<Map<string, Entity>>(new Map())
+  const pointCartesianByIdRef = useRef<Map<string, Cartesian3>>(new Map())
   const selectedPointRef = useRef<TravelPoint | null>(null)
+  const selectedPointOpenedAtRef = useRef(0)
   const isPointerOverGlobeRef = useRef(false)
   const isUserInteractingRef = useRef(false)
   const isMobileViewportRef = useRef(false)
@@ -214,19 +248,27 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
   }, [])
 
   const flyToPoint = useCallback((viewer: Viewer, point: TravelPoint, duration = 1.3) => {
-    const targetPosition = Cartesian3.fromDegrees(point.lng, point.lat, 0)
-    const targetSphere = new BoundingSphere(targetPosition, 1)
-    viewer.camera.flyToBoundingSphere(targetSphere, {
-      duration,
-      offset: new HeadingPitchRange(
-        CesiumMath.toRadians(0),
-        CLOSE_VIEW_PITCH,
-        isMobileViewportRef.current ? CLOSE_VIEW_RANGE_MOBILE : CLOSE_VIEW_RANGE_DESKTOP,
+    viewer.camera.cancelFlight()
+    viewer.camera.flyTo({
+      destination: Cartesian3.fromDegrees(
+        point.lng,
+        point.lat,
+        isMobileViewportRef.current ? CLOSE_VIEW_HEIGHT_MOBILE : CLOSE_VIEW_HEIGHT_DESKTOP,
       ),
+      duration,
+      orientation: {
+        heading: CesiumMath.toRadians(0),
+        pitch: CLOSE_VIEW_PITCH,
+        roll: 0,
+      },
     })
   }, [])
 
-  const closeDetail = useCallback(() => {
+  const closeDetail = useCallback((isOverlayClose = false) => {
+    if (isOverlayClose && performance.now() - selectedPointOpenedAtRef.current < OVERLAY_CLOSE_GUARD_MS) {
+      return
+    }
+
     setSelectedPoint(null)
     setHoveredPoint(null)
     const viewer = viewerRef.current
@@ -237,6 +279,7 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
 
   const openDetail = useCallback(
     (point: TravelPoint) => {
+      selectedPointOpenedAtRef.current = performance.now()
       setSelectedPoint(point)
       setHoveredPoint(null)
       const viewer = viewerRef.current
@@ -356,13 +399,15 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
 
       pointByEntityIdRef.current = new Map()
       pointEntitiesRef.current = new Map()
+      pointCartesianByIdRef.current = new Map()
 
       points.forEach((point) => {
+        const pointPosition = Cartesian3.fromDegrees(point.lng, point.lat, 0)
         const entity = viewer!.entities.add({
           id: point.id,
-          position: Cartesian3.fromDegrees(point.lng, point.lat, 0),
+          position: pointPosition,
           point: {
-            pixelSize: 10,
+            pixelSize: isTouchDeviceRef.current ? 16 : 10,
             color: Color.fromCssColorString('#67e8f9').withAlpha(0.98),
             outlineColor: Color.fromCssColorString('#082f49').withAlpha(0.95),
             outlineWidth: 2,
@@ -383,6 +428,7 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
 
         pointByEntityIdRef.current.set(point.id, point)
         pointEntitiesRef.current.set(point.id, entity)
+        pointCartesianByIdRef.current.set(point.id, pointPosition)
       })
 
       const updateCameraDepthState = () => {
@@ -451,6 +497,15 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
             point = getPointFromPickedObject(pickedItem, pointByEntityIdRef.current)
             if (point) break
           }
+        }
+        if (!point) {
+          point = findNearestPointByScreenDistance(
+            viewer,
+            pointByEntityIdRef.current,
+            pointCartesianByIdRef.current,
+            movement.position,
+            isTouchDeviceRef.current ? MOBILE_POINT_PICK_RADIUS_PX : DESKTOP_POINT_PICK_RADIUS_PX,
+          )
         }
         if (!point) return
 
@@ -532,6 +587,7 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
       viewerRef.current = null
       pointByEntityIdRef.current.clear()
       pointEntitiesRef.current.clear()
+      pointCartesianByIdRef.current.clear()
       isUserInteractingRef.current = false
       isPointerOverGlobeRef.current = false
       lastRotateTickRef.current = 0
@@ -662,7 +718,7 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={closeDetail}
+              onClick={() => closeDetail(true)}
               aria-label="Close detail overlay"
             />
 
@@ -672,7 +728,7 @@ export function TravelGlobeHero({ title, description, points }: TravelGlobeHeroP
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              onClick={closeDetail}
+              onClick={() => closeDetail()}
               aria-label="Close detail"
             >
               <i className="iconfont icon-close text-sm" />
