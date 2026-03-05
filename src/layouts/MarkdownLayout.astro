@@ -16,6 +16,7 @@ interface Props {
 }
 
 const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.props
+const isTravelPage = mdSlug === 'travel'
 ---
 
 <Layout title={title} description={description} image={image}>
@@ -28,8 +29,8 @@ const { title, description, image, mdTitle, mdDescription, mdSlug } = Astro.prop
   />
 
   <Header client:only="react" />
-  <main class="relative z-1 pt-16 min-h-main bg-primary">
-    <HeadGradient client:idle />
+  <main class:list={['relative z-1 min-h-main', isTravelPage ? 'pt-0 bg-transparent' : 'pt-16 bg-primary']}>
+    {!isTravelPage && <HeadGradient client:idle />}
     <div class="swup-transition-fade">
       <slot />
     </div>

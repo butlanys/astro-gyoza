@@ -6,7 +6,10 @@ points:
     lat: 24.4798
     lng: 118.0894
     anchor: '2023'
+    summary: 山海城市，风景和人文都很舒服。
     note: 不错的风景和人文，想找时间再去。
+    detailTitle: 厦门小记
+    detailText: 初次感受到海风和老城节奏并存的城市氛围，想找时间再深度走一遍。
 
   - id: macau-2024
     year: 2024
@@ -15,7 +18,10 @@ points:
     lat: 22.1987
     lng: 113.5439
     anchor: '2024'
+    summary: 紧凑但有层次的一座城市。
     note: 第一印象是城市不大，但值得一逛。
+    detailTitle: 澳门初印象
+    detailText: 大年初五的澳门街头很有节奏，城市体量不大但可逛点位密集。
 
   - id: beijing-2024
     year: 2024
@@ -24,7 +30,10 @@ points:
     lat: 39.9042
     lng: 116.4074
     anchor: '2024'
+    summary: 五一出行，行程有遗憾也有收获。
     note: 五一出行，没预约到故宫和国博有点遗憾。
+    detailTitle: 北京五一
+    detailText: 经典目的地人流很高，提醒我下次需要把预约和路线再提前规划。
 
   - id: bangkok-2024
     year: 2024
@@ -33,7 +42,10 @@ points:
     lat: 13.7563
     lng: 100.5018
     anchor: '2024'
+    summary: 文化和烟火气并存的城市体验。
     note: 有当地朋友带着玩，体验很新鲜。
+    detailTitle: 曼谷体验
+    detailText: 有朋友带路让很多本地化体验变得顺畅，节奏和国内城市很不一样。
 
   - id: pattaya-2024
     year: 2024
@@ -42,7 +54,10 @@ points:
     lat: 12.9236
     lng: 100.8825
     anchor: '2024'
+    summary: 泰国行程中的海边节点。
     note: 泰国行程的一站。
+    detailTitle: 芭提雅短停
+    detailText: 作为曼谷之外的一站，更多是感受不同城市氛围和生活节奏。
 
   - id: guangzhou-2024
     year: 2024
@@ -51,7 +66,10 @@ points:
     lat: 23.1291
     lng: 113.2644
     anchor: '2024'
+    summary: 国庆在广州认识了新朋友。
     note: 国庆在这里结识了朋友 tech_sky。
+    detailTitle: 广州国庆
+    detailText: 城市很有生活感，食物和人情味都在线，也因此认识了 tech_sky。
 
   - id: guangzhou-2025
     year: 2025
@@ -60,7 +78,10 @@ points:
     lat: 23.1291
     lng: 113.2644
     anchor: '2025'
+    summary: 五一再次到访，主打朋友局。
     note: 五一被朋友拉去吃肠粉。
+    detailTitle: 广州再访
+    detailText: 再次来到广州，感受更偏日常和朋友聚会路线。
 
   - id: shenzhen-2025
     year: 2025
@@ -69,7 +90,10 @@ points:
     lat: 22.5431
     lng: 114.0579
     anchor: '2025'
+    summary: 原计划目的地，节奏紧凑。
     note: 五一原计划目的地。
+    detailTitle: 深圳行程
+    detailText: 以城市体验为主，感受和广州不同的速度与氛围。
 
   - id: hong-kong-2026
     year: 2026
@@ -78,4 +102,20 @@ points:
     lat: 22.3193
     lng: 114.1694
     anchor: '2026'
-    note: 13 年后带着妈妈重游香港。
+    summary: 游港小记
+    note: 游港小记
+    detailTitle: 香港重游（2026.01.13-01.15）
+    detailText: 24 25年最想去的地方，26年才实现（
+    photos:
+      - src: https://file.butlanys.de/img/hongkong/20260113_150521.jpg
+        alt: 香港重游照片 1
+      - src: https://file.butlanys.de/img/hongkong/20260113_160825.jpg
+        alt: 香港重游照片 2
+      - src: https://file.butlanys.de/img/hongkong/20260113_163536.jpg
+        alt: 香港重游照片 3
+      - src: https://file.butlanys.de/img/hongkong/20260114_110313.jpg
+        alt: 香港重游照片 4
+      - src: https://file.butlanys.de/img/hongkong/20260114_171022.jpg
+        alt: 香港重游照片 5
+      - src: https://file.butlanys.de/img/hongkong/20260114_183019.jpg
+        alt: 香港重游照片 6

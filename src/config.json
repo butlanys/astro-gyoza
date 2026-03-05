@@ -33,7 +33,7 @@
       {
         "name": "RSS",
         "icon": "icon-rss",
-        "url": "https://blog.butlanys.de/rss.xml",
+        "url": "https://butlanys.de/rss.xml",
         "color": "rgb(250, 164, 3)"
       }
     ],

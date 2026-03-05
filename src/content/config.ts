@@ -58,8 +58,20 @@ const travelCollection = defineCollection({
         lat: z.number(),
         lng: z.number(),
         anchor: z.string(),
+        summary: z.string(),
         note: z.string().optional(),
         cover: z.string().optional(),
+        detailTitle: z.string().optional(),
+        detailText: z.string().optional(),
+        photos: z
+          .array(
+            z.object({
+              src: z.string(),
+              alt: z.string().optional(),
+            }),
+          )
+          .optional(),
+        region: z.string().optional(),
       }),
     ),
   }),

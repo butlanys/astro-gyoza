@@ -10,31 +10,35 @@ import {
 } from './hooks'
 import { RootPortal } from '@/components/RootPortal'
 
-export function HeaderContent() {
+export function HeaderContent({ minimal = false }: { minimal?: boolean }) {
   return (
     <>
-      <AnimatedMenu />
-      <AccessibleMenu />
+      <AnimatedMenu minimal={minimal} />
+      <AccessibleMenu minimal={minimal} />
     </>
   )
 }
 
-function AnimatedMenu() {
+function AnimatedMenu({ minimal }: { minimal: boolean }) {
   const shouldBgShow = useShouldHeaderMenuBgShow()
   const shouldHeaderMetaShow = useShouldHeaderMetaShow()
 
   return (
     <AnimatePresence>
-      {!shouldHeaderMetaShow && (
+      {(minimal || !shouldHeaderMetaShow) && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <HeaderMenu isBgShow={shouldBgShow} />
+          <HeaderMenu isBgShow={minimal ? false : shouldBgShow} minimal={minimal} />
         </motion.div>
       )}
     </AnimatePresence>
   )
 }
 
-function AccessibleMenu() {
+function AccessibleMenu({ minimal }: { minimal: boolean }) {
+  if (minimal) {
+    return null
+  }
+
   const shouldShow = useShouldAccessibleMenuShow()
 
   return (
@@ -42,12 +46,12 @@ function AccessibleMenu() {
       <AnimatePresence>
         {shouldShow && (
           <motion.div
-            className="fixed z-10 top-12 inset-x-0 flex justify-center pointer-events-none"
+            className="fixed z-50 top-12 inset-x-0 flex justify-center pointer-events-none"
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             exit={{ y: -20, opacity: 0 }}
           >
-            <HeaderMenu isBgShow />
+            <HeaderMenu isBgShow minimal={false} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -55,7 +59,7 @@ function AccessibleMenu() {
   )
 }
 
-function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
+function HeaderMenu({ isBgShow, minimal }: { isBgShow: boolean; minimal: boolean }) {
   const pathName = usePathName()
   const [mouseX, setMouseX] = useState(0)
   const [mouseY, setMouseY] = useState(0)
@@ -64,6 +68,7 @@ function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
   const background = `radial-gradient(${radius}px circle at ${mouseX}px ${mouseY}px, rgb(var(--color-accent) / 0.12) 0%, transparent 65%)`
 
   const handleMouseMove = ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
+    if (minimal) return
     const bounds = currentTarget.getBoundingClientRect()
     setMouseX(clientX - bounds.left)
     setMouseY(clientY - bounds.top)
@@ -75,14 +80,17 @@ function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
       className={clsx('relative rounded-full group pointer-events-auto duration-200', {
         'bg-gradient-to-b from-zinc-50/70 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10':
           isBgShow,
+        'bg-transparent shadow-none ring-0 text-slate-100': minimal,
       })}
       onMouseMove={handleMouseMove}
     >
-      <div
-        className="absolute -z-1 -inset-px rounded-full opacity-0 group-hover:opacity-100 duration-500"
-        style={{ background }}
-        aria-hidden
-      ></div>
+      {!minimal && (
+        <div
+          className="absolute -z-1 -inset-px rounded-full opacity-0 group-hover:opacity-100 duration-500"
+          style={{ background }}
+          aria-hidden
+        ></div>
+      )}
       <div className="text-sm px-4 flex">
         {menus.map((menu) => (
           <HeaderMenuItem
@@ -91,6 +99,7 @@ function HeaderMenu({ isBgShow }: { isBgShow: boolean }) {
             title={menu.name}
             icon={menu.icon}
             isActive={pathName === menu.link}
+            minimal={minimal}
           />
         ))}
       </div>
@@ -103,15 +112,26 @@ function HeaderMenuItem({
   isActive,
   title,
   icon,
+  minimal,
 }: {
   href: string
   isActive: boolean
   title: string
   icon: string
+  minimal: boolean
 }) {
   return (
     <a
-      className={clsx('relative block px-4 py-1.5', isActive ? 'text-accent' : 'hover:text-accent')}
+      className={clsx(
+        'relative block px-4 py-1.5 transition-colors',
+        minimal
+          ? isActive
+            ? 'text-cyan-300'
+            : 'text-slate-200 hover:text-slate-50'
+          : isActive
+            ? 'text-accent'
+            : 'hover:text-accent',
+      )}
       href={href}
     >
       <div className="flex space-x-2">
